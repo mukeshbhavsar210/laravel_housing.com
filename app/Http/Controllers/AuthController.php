@@ -10,12 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login(Request $request){
-        return view('front.home.login');
-    }
-
     public function register(Request $request){
-        return view('front.home.register');
+        return view('livewire.register');
     }
 
     public function processRegister(Request $request){
@@ -44,11 +40,5 @@ class AuthController extends Controller
                 'errors' => $validator->errors()
             ]);
         }
-    }
-
-
-    public function logout(){
-        Auth::logout();
-        return redirect()->route('/login')->with('success','You successfully logged out!');;
     }
 }

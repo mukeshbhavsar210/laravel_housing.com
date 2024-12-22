@@ -5,13 +5,17 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
-class AuthRegister extends Component
+class Registration extends Component
 {
-    public function render(Request $request)
-    {        
+    public function register(Request $request){
+        return view('livewire.registration');
+    }
+
+    public function processRegister(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:3',
             'email' => 'required|email|unique:users',
@@ -19,17 +23,16 @@ class AuthRegister extends Component
         ]);
 
         if($validator->passes()) {
+
             $user = new User;
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->phone = $request->phone;
             $user->password = Hash::make($request->password);
             $user->save();
 
             session()->flash('success','You have beed registered successfully');
 
             return response()->json([
-
                 'status' => true,
             ]);
         } else {
@@ -38,7 +41,5 @@ class AuthRegister extends Component
                 'errors' => $validator->errors()
             ]);
         }
-
-        return view('livewire.auth-register');
     }
 }
