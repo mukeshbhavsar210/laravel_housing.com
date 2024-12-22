@@ -40,7 +40,7 @@
 		<a href="http://127.0.0.1:8000/admin" target="_blank">Dashboard</a>
 		
 	@else
-		<a href="{{ route('account.register')}}" class="nav-link text-dark">Register</a>		
+		<a href="{{ route('account.register')}}" class="nav-link text-dark">Register</a>
 		<a href="http://127.0.0.1:8000/admin/login">Login</a>
 	@endif
     
