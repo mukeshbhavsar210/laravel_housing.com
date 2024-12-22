@@ -45,29 +45,4 @@ class Home extends Component
     }
 
 
-
-//     if(!empty($this->citySlug)) {
-//         $city = City::where('slug',$this->citySlug)->first();
-
-//         if(empty($city)){
-//             abort(404);
-//         }                       
-
-//         $properties = Property::orderBy('created_at','DESC')                        
-//             ->where('city_id',$city->id)
-//             ->where('status',1)
-//             ->paginate($paginate);
-//     } else {
-//         $properties = Property::orderBy('created_at','DESC')
-//             ->where('status',1)
-//             ->paginate($paginate);
-//     } 
-           
-//     return view('livewire.home', [
-//         'properties' => $properties,
-//         'cities' => $cities,
-//         'areas' => $areas,
-//     ]);
-// }
-
 }
