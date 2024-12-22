@@ -21,6 +21,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\IconColumn;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Filament\Forms\Set;
 use Illuminate\Support\Str;
 use Filament\Support\Enums\FontWeight;
@@ -77,17 +78,23 @@ class PropertyResource extends Resource {
                 TextInput::make('price')->label('Price')->required()->placeholder('Price'),
                 TextInput::make('average_price')->label('Average Price')->placeholder('Average Price'),
                 
-                FileUpload::make('cover_photo')->directory('propertyPhotos')
-                            ->openable()     
-                            ->imageCropAspectRatio('4:3')
-                            ->imageEditorEmptyFillColor('#000000'),
+                FileUpload::make('cover_photo')
+                            ->directory('propertyPhotos')
+                            ->image()
+                            ->optimize('webp')
+                            ->resize(80)
+                            ->imageCropAspectRatio('5:3')
+                            ->getUploadedFileNameForStorageUsing(
+                                fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                                    ->prepend('custom_'),
+                            ),     
                             
                 FileUpload::make('property_images')
                             ->directory('propertyPhotos')
+                            ->image()
                             ->multiple()
-                            ->openable()                            
-                            ->imageCropAspectRatio('4:3')
-                            ->imageEditorEmptyFillColor('#000000'),
+                            ->optimize('webp')
+                            ->imageCropAspectRatio('4:3'),
                                          
                 Textarea::make('google_location')->label('Google Location')->placeholder('Google Location')->columnSpan(1),
                 DatePicker::make('launch_date')->format('d/m/Y'),
