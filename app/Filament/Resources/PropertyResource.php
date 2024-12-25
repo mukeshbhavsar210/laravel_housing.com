@@ -6,6 +6,7 @@ use App\Filament\Resources\PropertyResource\Pages;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Developer;
+use App\Models\Agent;
 use App\Models\Property;
 use App\Models\Amenity;
 use Filament\Forms;
@@ -26,13 +27,16 @@ use Filament\Forms\Set;
 use Illuminate\Support\Str;
 use Filament\Support\Enums\FontWeight;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Illuminate\Database\Eloquent\Builder;
 
 use Filament\Tables\Columns\Layout\Grid;
 use Filament\Tables\Columns\Layout\Stack;
 
 class PropertyResource extends Resource {
     protected static ?string $model = Property::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';  
+    
+    
 
     public static function form(Form $form): Form {
         return $form
@@ -46,7 +50,7 @@ class PropertyResource extends Resource {
                 ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))->columnSpan(2),
                 TextInput::make('slug')->required()->placeholder('Slug'),
                 Select::make('buy_sell')->options([ 'Sell' => 'Sell', 'Buy' => 'Rent'])->label('Buy or Sell')->default(1)->columnSpan('Sell'),
-                
+
                 TextInput::make('address')->label('Address')->placeholder('Address')->columnSpan(2),
 
                 Select::make('city_id')->label('Select City')->placeholder('Select City')
@@ -72,7 +76,7 @@ class PropertyResource extends Resource {
                     })
                     ->reactive(),
                 
-                Select::make('developer_id')->label('Developer')->options(Developer::all()->pluck('name','id')),                
+                Select::make('developer_id')->label('Developer')->options(Developer::all()->pluck('name','id')),                                
                 TextInput::make('contact_seller')->label('Contact Seller')->placeholder('Contact Seller'),                
                 
                 TextInput::make('price')->label('Price')->required()->placeholder('Price'),
@@ -82,7 +86,7 @@ class PropertyResource extends Resource {
                             ->directory('propertyPhotos')
                             ->image()
                             ->optimize('webp')
-                            ->resize(80)
+                            ->resize(50)
                             ->imageCropAspectRatio('5:3')
                             ->getUploadedFileNameForStorageUsing(
                                 fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
@@ -91,7 +95,6 @@ class PropertyResource extends Resource {
                             
                 FileUpload::make('property_images')
                             ->directory('propertyPhotos')
-                            ->image()
                             ->multiple()
                             ->optimize('webp')
                             ->imageCropAspectRatio('4:3'),
@@ -116,20 +119,28 @@ class PropertyResource extends Resource {
 
     public static function table(Table $table): Table
     {
-        return $table
-        
-            ->query(Property::select('properties.*','cities.name as city_name', 'areas.name as area_name', 'developers.name as developer_name')
+        return $table        
+            ->query(Property::select('properties.*',
+                    'cities.name as city_name', 
+                    'areas.name as area_name', 
+                    'users.name as user_name', 
+                    'developers.name as developer_name'
+                )
+                ->leftJoin('users','users.id','=','properties.user_id')
                 ->leftJoin('cities','cities.id','=','properties.city_id')
                 ->leftJoin('areas','areas.id','=','properties.area_id')
                 ->leftJoin('developers','developers.id','=','properties.developer_id')
             )
+            
             ->columns([
                 //ImageColumn::make('image')->defaultImageUrl(url('/storage/dummy.jpg'))->circular(),
-                TextColumn::make('name')->sortable()->weight(FontWeight::Bold)->label('Property Name'),
-                TextColumn::make('developer_name')->label('Developer'),
-                TextColumn::make('area_name')->label('Area'),
-                TextColumn::make('city_name')->label('City'),                
-                IconColumn::make('status')
+                TextColumn::make('name')                            
+                            ->sortable()->weight(FontWeight::Bold)->label('Property Name'),
+                TextColumn::make('user_name')->sortable()->label('User'),
+                TextColumn::make('developer_name')->sortable()->label('Developer'),
+                TextColumn::make('area_name')->sortable()->label('Area'),
+                TextColumn::make('city_name')->sortable()->label('City'),                
+                IconColumn::make('status')->sortable()
                     ->boolean()
                     ->trueIcon('heroicon-o-check-badge')
                     ->falseIcon('heroicon-o-x-mark')

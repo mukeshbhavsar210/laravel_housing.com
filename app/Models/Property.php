@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class Property extends Model
 {
@@ -13,10 +14,32 @@ class Property extends Model
         'property_images' => 'array',
         'amenities' => 'array',
     ];
-    
+
+
+    protected static function booted(): void {
+        static::addGlobalScope('property', function (Builder $query) {
+            
+            if (auth()->hasUser()) {
+                $query->where('user_id', auth()->user()->id);                
+                //$query->where('user_id', auth()->user()->id);
+            } else {
+                //$query->whereBelongsTo(auth()->user()->property);
+                //$query->where('user_id', auth()->user()->id);   
+            }
+        });
+    }
+
+    public function name()
+    {
+        return $this->belongsTo( Property::class, 'name', 'id' );
+    }
 
     public function getCity(){
         return $this->hasOne('App\Models\City','id','city_id');
+    }
+
+    public function getAminity(){
+        return $this->hasOne('App\Models\Amenity','id','amenities');
     }
 
     public function getArea(){
@@ -29,8 +52,6 @@ class Property extends Model
 
     public function getAmenity(){
         return $this->hasMany('App\Models\Amenity','id','amenities');
-        // return $this->belongsToMany(Amenity::class)
-        //     ->whereIn('id', $this->amenities ?? []);
     }
 
 }

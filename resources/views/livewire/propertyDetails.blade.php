@@ -1,33 +1,25 @@
 <div>
-<div class="section">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-10">
-          <div class="mb-5">
-            <h2 class="mb-4" style="line-height:1.5">{{ $property->name }}</h2>
-            <span>{{ \Carbon\Carbon::parse($property->created_at)->format('d M, Y') }}<span class="mx-2">/</span> </span>
-            <p class="list-inline-item"> {{ $property->area_name }} {{ $property->city_name }}</p>
-            <p class="list-inline-item">Developer: {{ $property->developer_name }}</p>   
-            
-          </div>
-          <div class="mb-5 text-center">
+  <div class="container">     
+        <h2>{{ $property->name }}</h2>
+        <p class="list-inline-item"> {{ $property->area_name }} {{ $property->city_name }}</p>
+        <p class="list-inline-item">Developer: {{ $property->developer_name }}</p>   
+        
+        <div class="row">
+          <div class="col-lg-9">
             <div class="post-slider rounded overflow-hidden">
               <img loading="lazy" decoding="async" src="{{ asset('storage/'.$property->cover_photo )}}" alt="Post Thumbnail">              
             </div>
           </div>
-          <div class="content">
-            <div class="row">
+          <div class="col-lg-3">
               @if ($property->property_images > 0)
-                @foreach($property->property_images as $image)
-                  <div class="col-md-2">
-                    <img loading="lazy" decoding="async" src="{{ asset('storage/'.$image )}}" alt="Post Thumbnail">
-                  </div>
-                @endforeach            
-              @else
-                  <img src="{{ asset('images/default-150x150.png') }}" alt="" class="img-thumbnail" width="50"  />
-              @endif
-            </div>
-            <p>{!! $property->content !!}</p>
+              @foreach($property->property_images as $image)
+                  <img loading="lazy" decoding="async" src="{{ asset('storage/'.$image )}}" alt="Post Thumbnail">
+              @endforeach            
+            @else
+                <img src="{{ asset('images/default-150x150.png') }}" alt="" class="img-thumbnail" width="50"  />
+            @endif
+            <span>{{ \Carbon\Carbon::parse($property->created_at)->format('d M, Y') }}</span>
+            <hr />            
             <p><b>Amenities:</b></p>
             <div class="row">
               @if ($property->amenities > 0)
@@ -44,7 +36,6 @@
             </div>  
           </div>
         </div>
-      </div>
-    </div>
-  </div>    
+        <p>{!! $property->content !!}</p>
+    </div>  
 </div>

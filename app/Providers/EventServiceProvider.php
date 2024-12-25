@@ -6,6 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Models\Property;
+use App\Observers\PropertyObserver;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -25,8 +27,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Property::observe(PropertyObserver::class);
     }
+    
 
     /**
      * Determine if events and listeners should be automatically discovered.

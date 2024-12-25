@@ -10021,9 +10021,8 @@ footer .nav-link {
 }
 /* '' */
 
-.saved-job { background: #00D363 !important; color: #fff !important;  }
-.hideArea { display:none;}
-.showAreaDropdown { display: block !important; }
-
-.searchHome { width:800px; margin:40px auto;}
-.searchHome h1 { font-size: 25px; text-align: center;}
+.propertyDetails { border:1px #ccc solid; margin-bottom: 30px; background-color: var(--bs-white); border-radius: 10px; padding:5px; font-size: 13px;}
+.propertyDetails p { margin: 0; font-size: 13px;}
+.propertyDetails a { color: #666;}
+.propertyDetails a:hover { color: #666;}
+.propertyDetails .greyPart { display: flex; background-color: #e5e5e5; padding:4px; border-radius: 2px; }
