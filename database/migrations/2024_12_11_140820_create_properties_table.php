@@ -15,13 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->integer('buy_sell')->default('sell');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('city_id')->constrained()->onDelete('cascade');
             $table->foreignId('area_id')->constrained()->onDelete('cascade');
             $table->foreignId('developer_id')->constrained()->onDelete('cascade');
             $table->foreignId('agent_id')->constrained()->onDelete('cascade');
             $table->string('price');
             $table->string('cover_photo')->nullable();
-            $table->string('property_photos')->nullable();
+            $table->string('property_images')->nullable();
             $table->string('address')->nullable();
             $table->string('launch_date')->nullable();
             $table->string('average_price')->nullable();

@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -18,27 +17,27 @@ class User extends Authenticatable implements FilamentUser
 
     const ROLE_ADMIN = 'Admin';
     const ROLE_USER = 'User';
-    const ROLE_EDITOR = 'Editor';
+    //const ROLE_EDITOR = 'Editor';
     const ROLE_DEFAULT = self::ROLE_USER;
 
     const ROLES = [
         self::ROLE_ADMIN => 'Admin',
         self::ROLE_USER => 'User',
-        self::ROLE_EDITOR => 'Editor',
+        //self::ROLE_EDITOR => 'Editor',
     ];
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->isAdmin() || $this->isEditor() || $this->isUser();
+        return $this->isAdmin() || $this->isUser();
     }
 
     public function isAdmin(){
         return $this->role === self::ROLE_ADMIN;
     }
 
-    public function isEditor(){
-        return $this->role === self::ROLE_EDITOR;
-    }
+    // public function isEditor(){
+    //     return $this->role === self::ROLE_EDITOR;
+    // }
 
     public function isUser(){
         return $this->role === self::ROLE_USER;

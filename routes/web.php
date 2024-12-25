@@ -4,6 +4,7 @@ use App\Livewire\Home;
 use App\Livewire\Property;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Livewire\PropertySearch;
 use App\Livewire\Registration;
 
 /*
@@ -18,9 +19,9 @@ use App\Livewire\Registration;
 */
 
 Route::get('/', Home::class)->name('home');
-
+Route::get('/result', PropertySearch::class)->name('search');
 Route::get('/city', Home::class)->name('city');
-Route::get('/area', Home::class)->name('area');
+Route::get('/area', PropertySearch::class)->name('area');
 Route::get('/{id}', Property::class)->name('propertyDetail');
 
 //User realted

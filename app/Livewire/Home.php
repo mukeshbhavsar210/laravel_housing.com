@@ -11,7 +11,7 @@ use Livewire\Attributes\Url;
 class Home extends Component
 {
     #[Url]
-    //public $citySlug = null;
+    public $citySlug = null;
     public $areaSlug = null;    
 
     public function render()
@@ -30,10 +30,12 @@ class Home extends Component
             $properties = Property::orderBy('created_at','DESC')                        
                 ->where('area_id',$area->id)
                 ->where('status',1)
+                ->take(2)
                 ->paginate($paginate);
         } else {
             $properties = Property::orderBy('created_at','DESC')
                 ->where('status',1)
+                ->take(2)
                 ->paginate($paginate);
         } 
                
@@ -43,6 +45,4 @@ class Home extends Component
             'areas' => $areas,
         ]);
     }
-
-
 }
