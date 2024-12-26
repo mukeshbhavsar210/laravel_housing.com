@@ -16,7 +16,6 @@ class PropertySearch extends Component
     //public $citySlug = null;
     public $areaSlug = null;   
      
-
     public function render(Request $request,)
     {
         $cities = City::all();

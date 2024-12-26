@@ -16,8 +16,7 @@ class Property extends Component
         $this->blogID = $id;        
     }
 
-    public function render()
-    {        
+    public function render(){        
         $property = ModelsProperty::
             select('properties.*','cities.name as city_name',
                                     'areas.name as area_name',
@@ -33,5 +32,4 @@ class Property extends Component
             'property' => $property
         ]);
     }
-
 }
