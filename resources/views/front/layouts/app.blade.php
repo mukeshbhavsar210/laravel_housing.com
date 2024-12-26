@@ -49,22 +49,88 @@
 </head>
 <body data-instant-intensity="mousedown">
 
+<div class="bg-light top-header">
+	<div class="container">
+		<div class="row align-items-center py-3 d-none d-lg-flex justify-content-between">
+			<div class="col-lg-4 logo">
+				<a href=" " class="text-decoration-none">
+					<span class="h1 text-uppercase text-primary bg-dark px-2">Online</span>
+					<span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">SHOP</span>
+				</a>
+			</div>
+			<div class="col-lg-6 col-6 text-left  d-flex justify-content-end align-items-center">
+
+                {{-- @if (Auth::check())
+                    <a href="{{ route('account.profile')}}" class="nav-link text-dark">My Account</a>
+                @else
+                    <a href="{{ route('account.login')}}" class="nav-link text-dark">Login/Register</a>
+                @endif --}}
+
+				<form action="{{ route('front.shop') }}">
+					<div class="input-group">
+						<input value="{{ Request::get('search') }}" type="text" placeholder="Search For Products" class="form-control" name="search" id="search">
+						<button type="submit" class="input-group-text">
+							<i class="fa fa-search"></i>
+					  	</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <main>
     @yield('content')
 </main>
 
+<!-- Wishlist Modal -->
+<div class="modal fade" id="wishlistModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Success</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script src="{{ asset('front-assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/bootstrap.bundle.5.1.3.min.js') }}"></script>
+<script src="{{ asset('front-assets/js/instantpages.5.1.0.min.js') }}"></script>
+<script src="{{ asset('front-assets/js/lazyload.17.6.0.min.js') }}"></script>
+<script src="{{ asset('front-assets/js/slick.min.js') }}"></script>
+<script src="{{ asset('front-assets/js/ion.rangeSlider.min.js') }}"></script>
 <script src="{{ asset('front-assets/js/custom.js') }}"></script>
 <script>
 window.onscroll = function() {myFunction()};
+
+var navbar = document.getElementById("navbar");
+var sticky = navbar.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
 
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    
+
 </script>
 
 @yield('customJs')

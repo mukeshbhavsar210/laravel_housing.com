@@ -19,19 +19,16 @@ class PropertyDetails extends Component
         $this->blogID = $id;        
     }
 
-
-    public function render()
-    {        
+    public function render() {        
         $amenities = Amenity::all();
-
         $properties = Property::
             select('properties.*','cities.name as city_name')
             ->leftJoin('cities','cities.id','properties.city_id')
-            ->findOrFail($this->blogID);            
+            ->findOrFail($this->blogID);       
+
         return view('livewire.propertyDetails', [
             'properties' => $properties,
             'amenities' => $amenities
         ]);
     }
-
 }

@@ -14,4 +14,5 @@ class Area extends Model
     public function getCity(){
         return $this->hasOne('App\Models\City','id','city_id');
     }
+    
 }

@@ -34,9 +34,7 @@ use Filament\Tables\Columns\Layout\Stack;
 
 class PropertyResource extends Resource {
     protected static ?string $model = Property::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';  
-    
-    
+    protected static ?string $navigationIcon = 'heroicon-o-check-circle';  
 
     public static function form(Form $form): Form {
         return $form
@@ -132,12 +130,11 @@ class PropertyResource extends Resource {
                 ->leftJoin('developers','developers.id','=','properties.developer_id')
             )
             
-            ->columns([
-                //ImageColumn::make('image')->defaultImageUrl(url('/storage/dummy.jpg'))->circular(),
+            ->columns([            
                 TextColumn::make('name')                            
-                            ->sortable()->weight(FontWeight::Bold)->label('Property Name'),
+                            ->sortable()->label('Property Name'),
                 TextColumn::make('user_name')->sortable()->label('User'),
-                TextColumn::make('developer_name')->sortable()->label('Developer'),
+                //TextColumn::make('developer_name')->sortable()->label('Developer'),
                 TextColumn::make('area_name')->sortable()->label('Area'),
                 TextColumn::make('city_name')->sortable()->label('City'),                
                 IconColumn::make('status')->sortable()

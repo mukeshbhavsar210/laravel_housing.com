@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
 
 class Property extends Model
 {
@@ -15,23 +16,20 @@ class Property extends Model
         'amenities' => 'array',
     ];
 
-
     protected static function booted(): void {
         static::addGlobalScope('property', function (Builder $query) {
-            
             if (auth()->hasUser()) {
-                $query->where('user_id', auth()->user()->id);                
-                //$query->where('user_id', auth()->user()->id);
-            } else {
-                //$query->whereBelongsTo(auth()->user()->property);
-                //$query->where('user_id', auth()->user()->id);   
-            }
-        });
+                $query->where('user_id', auth()->user()->id);
+            } 
+        });       
     }
 
-    public function name()
-    {
+    public function name(){
         return $this->belongsTo( Property::class, 'name', 'id' );
+    }
+
+    public function getRole(){
+        return $this->hasOne('App\Models\User','id','role');
     }
 
     public function getCity(){
@@ -53,5 +51,4 @@ class Property extends Model
     public function getAmenity(){
         return $this->hasMany('App\Models\Amenity','id','amenities');
     }
-
 }

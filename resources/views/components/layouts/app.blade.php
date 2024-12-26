@@ -24,6 +24,12 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ asset('front/css/style.css') }}">  
 
+	<link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/slick.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/slick-theme.css') }}" />
+	<link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/style.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('front-assets/css/ion.rangeSlider.min.css') }}" />
+
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 
     @livewireStyles
@@ -34,10 +40,24 @@
 		<a href="http://127.0.0.1:8000/admin" target="_blank">Dashboard</a>
 		
 	@else
-		<a href="{{ route('account.register')}}" class="nav-link text-dark">Register</a>		
+		<a href="{{ route('account.register')}}" class="nav-link text-dark">Register</a>
 		<a href="http://127.0.0.1:8000/admin/login">Login</a>
 	@endif
     
+	<header class="bg-dark">
+		<div class="container">
+			<nav class="navbar navbar-expand-xl" id="navbar">
+				<a href="index.php" class="text-decoration-none mobile-logo">
+					<span class="h2 text-uppercase text-primary bg-dark">Online</span>
+					<span class="h2 text-uppercase text-white px-2">SHOP</span>
+				</a>
+				<button class="navbar-toggler menu-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					  <!-- <span class="navbar-toggler-icon icon-menu"></span> -->
+					  <i class="navbar-toggler-icon fas fa-bars"></i>
+				</button>
+			  </nav>
+		  </div>
+	</header>
 {{ $slot }}
 @livewireScripts
 
