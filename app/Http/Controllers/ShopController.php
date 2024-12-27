@@ -21,17 +21,17 @@ class ShopController extends Controller
         $properties = Property::where('status',1);
 
         //Apply filters here
-        if(!empty($categorySlug)) {
-            $city = City::where('slug',$categorySlug)->first();
-            $properties = $properties->where('city_id',$city->id);
-            $categorySelected = $city->id;
-        }
+        // if(!empty($categorySlug)) {
+        //     $city = City::where('slug',$categorySlug)->first();
+        //     $properties = $properties->where('city_id',$city->id);
+        //     $categorySelected = $city->id;
+        // }
 
-        if(!empty($subCategorySlug)) {
-            $subCategory = Area::where('slug',$subCategorySlug)->first();
-            $properties = $properties->where('area_id',$subCategory->id);
-            $subCategorySelected = $subCategory->id;
-        }
+        // if(!empty($subCategorySlug)) {
+        //     $subCategory = Area::where('slug',$subCategorySlug)->first();
+        //     $properties = $properties->where('area_id',$subCategory->id);
+        //     $subCategorySelected = $subCategory->id;
+        // }
 
         if(!empty($request->get('amenities'))) {
             $amenityArray = explode(',',$request->get('amenities'));
@@ -80,7 +80,7 @@ class ShopController extends Controller
 
 
 
-    public function product($slug){
+    public function property($slug, $categorySlug = null, $subCategorySlug = null){
         $properties = Property::where('slug',$slug)->first();
 
         if($properties == null){
@@ -91,4 +91,5 @@ class ShopController extends Controller
         
         return view('front.products.index',$data);
     }
+
 }
